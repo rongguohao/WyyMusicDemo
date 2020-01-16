@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
+import { WyUiModule } from './wy-ui/wy-ui.module';
 
 
 @NgModule({
@@ -10,11 +11,13 @@ import { FormsModule } from '@angular/forms';
     NgZorroAntdModule,
     FormsModule,
     CommonModule,
+    WyUiModule
   ],
   exports: [
     NgZorroAntdModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    WyUiModule
   ]
 })
 export class ShareModule { }
