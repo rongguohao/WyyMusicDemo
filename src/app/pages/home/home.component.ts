@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HomeService } from 'src/app/services/home.service';
-import { Banner, HotTag, SongSheet } from 'src/app/services/data-types/common.types';
+import { Banner, HotTag, SongSheet, Singer } from 'src/app/services/data-types/common.types';
 import { NzCarouselComponent } from 'ng-zorro-antd';
+import { SingerService } from 'src/app/services/singer.service';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/internal/operators';
+import { SheetService } from 'src/app/services/sheet.service';
 
 @Component({
   selector: 'app-home',
@@ -14,35 +18,26 @@ export class HomeComponent implements OnInit {
   banners: Banner[];
   hotTags: HotTag[];
   songSheets: SongSheet[];
+  singers: Singer[];
 
   @ViewChild(NzCarouselComponent, { static: true }) private nzCarousel: NzCarouselComponent;
 
-  constructor(private homeSerivce: HomeService) {
-    this.getBanners();
-    this.getHotTags();
-    this.getPersonalizedSheetList();
+  constructor(
+    private homeSerivce: HomeService,
+    private singerService: SingerService,
+    private sheetService:SheetService,
+    private route: ActivatedRoute) {
+    this.route.data.pipe(map(res => res.homeDatas)).subscribe(([banners, tags, songs, artists]) => {
+      this.banners = banners;
+      this.hotTags = tags;
+      this.songSheets = songs;
+      this.singers = artists;
+    });
   }
 
   ngOnInit() {
   }
 
-  private getBanners() {
-    this.homeSerivce.getBanners().subscribe(banners => {
-      this.banners = banners;
-    });
-  }
-
-  private getHotTags() {
-    this.homeSerivce.getHotTags().subscribe(tags => {
-      this.hotTags = tags;
-    });
-  }
-
-  private getPersonalizedSheetList() {
-    this.homeSerivce.getPersonalSheetList().subscribe(result => {
-      this.songSheets = result;
-    });
-  }
 
   onBeforeChange({ to }) {
     this.carouselActiveIndex = to;
@@ -50,5 +45,11 @@ export class HomeComponent implements OnInit {
 
   onChangeSlide(type: 'pre' | 'next') {
     this.nzCarousel[type]();
+  }
+
+  onPlaySheet(id:number){
+    this.sheetService.playSheet(id).subscribe(res=>{
+
+    });
   }
 }

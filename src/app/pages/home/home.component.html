@@ -31,14 +31,32 @@
                     </div>
                     <div class="down">
                         <div class="down-wrap">
-                            <app-single-sheet class="sheet-item" *ngFor="let item of songSheets" [sheet]="item">
+                            <app-single-sheet class="sheet-item" *ngFor="let item of songSheets" [sheet]="item" (playSheet)="onPlaySheet($event)">
 
                             </app-single-sheet>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="right"></div>
+            <div class="right">
+                <app-member-card>登录</app-member-card>
+                <div class="settled-singer">
+                    <div class="tit">
+                        <b>入驻歌手</b>
+                    </div>
+                    <div class="list">
+                        <div class="card" *ngFor="let item of singers">
+                            <div class="pic">
+                                <img [src]="item.picUrl" [alt]="item.name">
+                            </div>
+                            <div class="txt">
+                                <b class="ellipsis">{{item.name}}</b>
+                                <span>专辑数量:{{item.albumSize}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
