@@ -18,23 +18,31 @@ export class SongService {
         return this.http.get(environment.apiUrl + 'song/url', { params }).pipe(map((res: { data: SongUrl[] }) => res.data));
     }
 
-    getSongList(songs: Song | Song[]): Observable<Song[]> {
+    // getSongList(songs: Song | Song[]): Observable<Song[]> {
+    //     const songArr = Array.isArray(songs) ? songs.slice() : [songs];
+    //     const ids = songArr.map(item => item.id).join(',');
+    //     return Observable.create(observer => {
+    //         this.getSongUrl(ids).subscribe(urls => {
+    //             observer.next(this.generateSongList(songArr, urls));
+
+    //         });
+    //     });
+    // }
+
+        getSongList(songs: Song | Song[]): Observable<Song[]> {
         const songArr = Array.isArray(songs) ? songs.slice() : [songs];
         const ids = songArr.map(item => item.id).join(',');
-        return Observable.create(observer => {
-            this.getSongUrl(ids).subscribe(urls => {
-                observer.next(this.generateSongList(songArr, urls))
-
-            });
-        });
+        return this.getSongUrl(ids).pipe(map(urls => {
+            return this.generateSongList(songArr, urls);
+        }));
     }
 
     private generateSongList(songs: Song[], urls: SongUrl[]): Song[] {
         const result = [];
         songs.forEach(song => {
-            const url = urls.find(url => url.id === song.id);
+            const url = urls.find(a => a.id === song.id);
             if (url) {
-                result.push({ ...song, url })
+                result.push({ ...song, url });
             }
         });
         return result;

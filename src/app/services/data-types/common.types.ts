@@ -26,16 +26,18 @@ export class Singer {
     albumSize: number;
 }
 
-export type Song = {
+export class Song {
     id: number;
     name: string;
     url: string;
     ar: Singer[];
     dt: number;
-    al: { id: number; name: string; picUrl: string }
+    al: { id: number; name: string; picUrl: string };
 }
 
-export type SongUrl = {
+
+export class SongUrl {
     id: number;
     url: string;
 }
+

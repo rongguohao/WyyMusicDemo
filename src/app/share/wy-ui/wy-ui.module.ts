@@ -13,7 +13,7 @@ import { WyPlayerModule } from './wy-player/wy-player.module';
   imports: [
     WyPlayerModule
   ],
-  exports:[
+  exports: [
     SingleSheetComponent,
     PlayCountPipe,
     WyPlayerModule

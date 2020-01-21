@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private homeSerivce: HomeService,
     private singerService: SingerService,
-    private sheetService:SheetService,
+    private sheetService: SheetService,
     private route: ActivatedRoute) {
     this.route.data.pipe(map(res => res.homeDatas)).subscribe(([banners, tags, songs, artists]) => {
       this.banners = banners;
@@ -47,9 +47,9 @@ export class HomeComponent implements OnInit {
     this.nzCarousel[type]();
   }
 
-  onPlaySheet(id:number){
-    this.sheetService.playSheet(id).subscribe(res=>{
-
+  onPlaySheet(id: number) {
+    this.sheetService.playSheet(id).subscribe(res => {
+      console.log('res', res);
     });
   }
 }
